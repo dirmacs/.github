@@ -16,7 +16,7 @@ The human stays in the loop. The agent does the heavy lifting. Tools, skills, me
 - **[thulp](https://github.com/dirmacs/thulp)** — Execution Context Engineering Platform for AI agents.
 - **[daedra](https://github.com/dirmacs/daedra)** — Web search and research MCP server. Fast, Rust, DuckDuckGo-powered.
 
-We run **Doltdot** — our own AI agent — on top of this stack. It's live, it works, and it's how we dogfood everything we build.
+**DolTARES** is our Rust server that ties it all together — powered by ares, thulp, and daedra. It runs **Doltdot**, our AI agent: chat, workflows, scheduling, delivery, self-healing, DAG orchestration. It's live, it works, and it's how we dogfood everything we build.
 
 ## Where we're headed
 
