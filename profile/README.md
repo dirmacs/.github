@@ -15,7 +15,6 @@ The human stays in the loop. The agent does the heavy lifting. Tools, skills, me
 - **[ares](https://github.com/dirmacs/ares)** — Agentic chatbot server. Multi-provider LLM, tool calling, RAG, MCP.
 - **[thulp](https://github.com/dirmacs/thulp)** — Execution Context Engineering Platform for AI agents.
 - **[daedra](https://github.com/dirmacs/daedra)** — Web search and research MCP server. Fast, Rust, DuckDuckGo-powered.
-- **[doltares](https://github.com/dirmacs/doltares)** — Rust server that powers Doltdot: Leptos UI, workflows, scheduler, channel gateway, self-healing, DAG.
 
 We run **Doltdot** — our own AI agent — on top of this stack. It's live, it works, and it's how we dogfood everything we build.
 
