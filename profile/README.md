@@ -6,41 +6,61 @@ Open-source Rust infrastructure for agentic AI. We build it, we run it, we ship 
 
 ## What we do
 
-We write Rust. We build the servers, the execution engines, and the search layers that let AI agents actually do work — not just talk. Long-horizon DAG workflows. Systems that run 24/7. Infrastructure that builds itself.
+We write Rust. We build the servers, the execution engines, the coding agents, and the search layers that let AI agents actually do work — not just talk. Long-horizon workflows. Systems that run 24/7. Infrastructure that builds itself, heals itself, and improves itself.
 
 The human stays in the loop. The agent does the heavy lifting. Tools, skills, memory, and the human — all of it works as one system. That's not a pitch; it's how we operate every day.
 
-## Architecture
+## The Stack
 
-Our stack is modular by design. Each layer is a standalone Rust crate or service with a clear responsibility and a well-defined interface. They compose vertically: agent runtime at the base, execution context in the middle, external capability (search, MCP) at the edge.
+Our infrastructure is modular by design. Each layer is a standalone Rust crate or service with a clear responsibility. They compose vertically: agent runtime at the base, coding agent on top, config management across everything.
 
-The result is a system where you can swap providers, add tools, change models, or extend workflows without rewriting the core. That composability is intentional — it's what lets us iterate fast and ship with confidence.
+### Core Runtime
 
-## Open-source projects
+- **[ares](https://github.com/dirmacs/ares)** — Agentic AI server. Multi-provider LLM (NVIDIA NIM, Ollama, Groq, Anthropic), structured tool calling, RAG, MCP integration, multi-tenant metering. The runtime layer that manages agents, routes requests, and exposes an OpenAI-compatible API.
 
-- **[ares](https://github.com/dirmacs/ares)** — Agentic chatbot server. Multi-provider LLM support (cloud and local), structured tool calling, retrieval-augmented generation, and native MCP integration. Ares is the runtime layer: it manages agents, routes requests, handles provider failover, and exposes an OpenAI-compatible API.
+- **[eruka](https://github.com/dirmacs/eruka)** — Context intelligence engine. Structured business knowledge, workspace isolation, 13 MCP tools, the biological memory layer for agents that need to understand what they're working with.
 
-- **[thulp](https://github.com/dirmacs/thulp)** — Execution Context Engineering Platform for AI agents. Thulp gives agents structured context: skills, memory protocols, environment awareness, and identity. It's the layer between "the model can generate text" and "the agent knows what it's doing and why."
+### Developer Tools
 
-- **[daedra](https://github.com/dirmacs/daedra)** — Web search and research MCP server. High-performance, Rust-native, DuckDuckGo-powered. Daedra gives agents the ability to search the web and fetch page content in real time — available as a tool or as a standalone MCP server for any compatible client.
+- **[pawan](https://github.com/dirmacs/pawan)** — Self-healing CLI coding agent. 18 subcommands, 17 tools, streaming TUI with markdown + vim keybindings. AI commit, review, explain, test analysis, watch mode. Named after [Power Star Pawan Kalyan](https://en.wikipedia.org/wiki/Pawan_Kalyan). Replaces Claude Code with a self-hosted, zero-subscription alternative. **[docs](https://dirmacs.github.io/pawan)**
+
+- **[aegis](https://github.com/dirmacs/aegis)** — Declarative config management. TOML manifests that generate tool configs for the entire stack.
+
+- **[daedra](https://github.com/dirmacs/daedra)** — Web search MCP server. Rust-native, DuckDuckGo-powered. Gives agents real-time web search and page fetching.
+
+- **[nimakai](https://github.com/dirmacs/nimakai)** — NVIDIA NIM model latency benchmarker. Written in Nim. Measures ping, tool-use, and agent task times across all NIM models.
+
+### Platform & Products
+
+- **[thulp](https://github.com/dirmacs/thulp)** — Execution Context Engineering Platform. Skills, memory protocols, environment awareness, identity for agents.
+
+- **[dui](https://github.com/dirmacs/dui)** — Component library for Leptos WASM frontends. 29 accessible components, published on crates.io.
 
 ## DolTARES and Doltdot
 
 **DolTARES** is our Rust server that ties it all together — powered by ares, thulp, and daedra. It handles chat, workflow orchestration, scheduling, channel delivery, self-healing, and long-horizon DAG execution. DolTARES is where the open-source pieces meet production.
 
-**Doltdot** is the AI agent that runs on DolTARES. It's live. It handles real tasks — research, development workflows, automated pipelines, communication. We use it internally to run and improve the very infrastructure it sits on. That feedback loop is the core of how we work: build the stack, run the agent, learn from production, ship the improvement.
+**Doltdot** is the AI agent that runs on DolTARES. It's live — handles real tasks, research, development workflows, automated pipelines, communication. We use it internally to run and improve the very infrastructure it sits on.
 
-## Engineering principles
+## DTrain — Our Operating Methodology
 
-- **Rust-first.** Memory safety, performance, and correctness are non-negotiable. We don't reach for Rust because it's fashionable; we reach for it because agentic systems need to be reliable at runtime, not just at demo time.
-- **Composability over monoliths.** Each crate does one thing well. Ares doesn't know about Daedra. Thulp doesn't know about Ares. They compose through clean interfaces.
-- **Long-horizon by default.** Our DAG engine is built for workflows that run for minutes, hours, or days — not just request-response. Checkpointing, recovery, and self-healing are first-class concerns.
-- **Human in the loop.** The agent proposes, the human reviews. Automation without oversight is a liability. We build for the case where someone is watching and the case where they step away.
-- **Dogfooding.** We run our own agent on our own infra. If it breaks, we feel it first. That's the fastest way to build something real.
+We run on **DTrain** — a 6-phase circular lifecycle that takes any operation from manual to autonomous:
+
+**DSprint** (discover) → **DBuild** (develop) → **DLaunch** (deploy) → **DWatch** (monitor) → **DTune** (improve) → **DGrow** (scale)
+
+DIRMACS is its own first client. We're at Sprint 73 of a 90-sprint bootstrap, building toward a self-operating AI platform. Pawan executes the sprints. Ares runs the agents. Eruka holds the context.
+
+## Engineering Principles
+
+- **Rust-first.** Memory safety, performance, correctness. Agentic systems need to be reliable at runtime, not just at demo time.
+- **Composability over monoliths.** Each crate does one thing well. They compose through clean interfaces.
+- **Verification over speed.** "Autonomous AI execution without verification gates produces confident fiction." Every deployment is proven with actual command output.
+- **NVIDIA downstream.** We build on NVIDIA NIM as our primary inference layer. Downstream integrators with upstream compute.
+- **Dogfooding.** We run our own agents on our own infra. Pawan improves pawan. Ares serves ares' agents. If it breaks, we feel it first.
 
 ## Where we're headed
 
-AGI-approved infrastructure. We're not waiting for AGI to show up — we're building the stack it'll need when it does. Automating startup, software development, research. We're accelerating with a mini AGI system that runs 24/7 and we're doing it in the open. The work is rigorous, the iteration is fast, and the ambition is deliberate.
+AGI-approved infrastructure. We're not waiting for AGI to show up — we're building the stack it'll need when it does. Automating startup, software development, research. We're accelerating with a system that runs 24/7 and we're doing it in the open.
 
 ---
 
