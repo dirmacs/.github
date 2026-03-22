@@ -18,7 +18,7 @@ Our infrastructure is modular by design. Each layer is a standalone Rust crate o
 
 - **[ares](https://github.com/dirmacs/ares)** — Agentic AI server. Multi-provider LLM (NVIDIA NIM, Ollama, Groq, Anthropic), structured tool calling, RAG, MCP integration, multi-tenant metering. The runtime layer that manages agents, routes requests, and exposes an OpenAI-compatible API.
 
-- **[eruka](https://github.com/dirmacs/eruka)** — Context intelligence engine. Structured business knowledge, workspace isolation, 13 MCP tools, the biological memory layer for agents that need to understand what they're working with.
+- **[eruka](https://eruka.dirmacs.com)** — Context intelligence engine. Structured business knowledge, workspace isolation, 13 MCP tools, the biological memory layer for agents that need to understand what they're working with.
 
 ### Developer Tools
 
