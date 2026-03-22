@@ -22,17 +22,17 @@ Our infrastructure is modular by design. Each layer is a standalone Rust crate o
 
 ### Developer Tools
 
-- **[pawan](https://github.com/dirmacs/pawan)** — Self-healing CLI coding agent. 18 subcommands, 17 tools, streaming TUI with markdown + vim keybindings. AI commit, review, explain, test analysis, watch mode. Named after [Power Star Pawan Kalyan](https://en.wikipedia.org/wiki/Pawan_Kalyan). Replaces Claude Code with a self-hosted, zero-subscription alternative. **[docs](https://dirmacs.github.io/pawan)**
+- **[pawan](https://github.com/dirmacs/pawan)** — Self-healing CLI coding agent. 29 tools, AST + LSP powers, streaming TUI with command palette, vim keybindings, markdown rendering. Runs on NVIDIA NIM or local MLX. No subscription, no telemetry. **[docs](https://dirmacs.github.io/pawan)**
 
 - **[aegis](https://github.com/dirmacs/aegis)** — Declarative config management. TOML manifests that generate tool configs for the entire stack.
 
-- **[daedra](https://github.com/dirmacs/daedra)** — Web search MCP server. Rust-native, DuckDuckGo-powered. Gives agents real-time web search and page fetching.
+- **[daedra](https://github.com/dirmacs/daedra)** — Self-contained web search MCP server. 7 backends with automatic fallback. Works from any IP. Pure Rust, no Docker, no API keys required. **[docs](https://dirmacs.github.io/daedra)**
 
 - **[nimakai](https://github.com/dirmacs/nimakai)** — NVIDIA NIM model latency benchmarker. Written in Nim. Measures ping, tool-use, and agent task times across all NIM models.
 
 ### Platform & Products
 
-- **[thulp](https://github.com/dirmacs/thulp)** — Execution Context Engineering Platform. Skills, memory protocols, environment awareness, identity for agents.
+- **[thulp](https://github.com/dirmacs/thulp)** — Execution context engineering for AI agents. 11 crates, 311 tests. Unified tool abstraction for local functions, MCP servers, and OpenAPI endpoints. Query DSL, skill workflows, session management. **[docs](https://dirmacs.github.io/thulp)**
 
 - **[dui](https://github.com/dirmacs/dui)** — Component library for Leptos WASM frontends. 29 accessible components, published on crates.io.
 
