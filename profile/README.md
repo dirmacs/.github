@@ -34,7 +34,7 @@ Our infrastructure is modular by design. Each layer is a standalone Rust crate o
 
 - **[thulp](https://github.com/dirmacs/thulp)** — Execution context engineering for AI agents. 11 crates, 311 tests. Unified tool abstraction for local functions, MCP servers, and OpenAPI endpoints. Query DSL, skill workflows, session management. **[docs](https://dirmacs.github.io/thulp)**
 
-- **[dui](https://github.com/dirmacs/dui)** — Component library for Leptos WASM frontends. 29 accessible components, published on crates.io.
+- **[dui](https://crates.io/crates/dui-leptos)** — Component library for Leptos WASM frontends. 29 accessible components, published on crates.io.
 
 ## DolTARES and Doltdot
 
