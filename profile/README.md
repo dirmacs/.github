@@ -82,4 +82,4 @@ AGI-approved infrastructure. We're not waiting for AGI to show up — we're buil
 
 ---
 
-[github.com/dirmacs](https://github.com/dirmacs) · [dirmacs.com](https://www.dirmacs.com) · [contact@dirmacs.com](mailto:contact@dirmacs.com)
+[dirmacs.github.io](https://dirmacs.github.io) · [dirmacs.com](https://www.dirmacs.com) · [contact@dirmacs.com](mailto:contact@dirmacs.com)
