@@ -34,8 +34,6 @@ Our infrastructure is modular by design. Each layer is a standalone Rust crate o
 
 - **[nimakai](https://github.com/dirmacs/nimakai)** — NVIDIA NIM model latency benchmarker. Written in Nim. Measures ping, tool-use, and agent task times across all NIM models.
 
-- **[dissues](https://github.com/dirmacs/dissues)** — GitHub issue tracker TUI. Rust CLI for browsing, filtering, and managing issues across repositories.
-
 ### Platform & Products
 
 - **[thulp](https://github.com/dirmacs/thulp)** — Execution context engineering for AI agents. 11 crates, 311 tests. Unified tool abstraction for local functions, MCP servers, and OpenAPI endpoints. Query DSL, skill workflows, session management. **[docs](https://dirmacs.github.io/thulp)**
