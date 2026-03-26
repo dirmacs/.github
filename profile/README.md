@@ -28,13 +28,21 @@ Our infrastructure is modular by design. Each layer is a standalone Rust crate o
 
 - **[daedra](https://github.com/dirmacs/daedra)** — Self-contained web search MCP server. 7 backends with automatic fallback. Works from any IP. Pure Rust, no Docker, no API keys required. **[docs](https://dirmacs.github.io/daedra)**
 
+- **[eruka-mcp](https://github.com/dirmacs/eruka-mcp)** — MCP server for Eruka context memory. 13 tools for reading, writing, and searching structured knowledge with 4 confidence states. Anti-hallucination constraint injection. Published on crates.io. **[docs](https://dirmacs.github.io/eruka-mcp)**
+
+- **[dwasm](https://github.com/dirmacs/dwasm)** — Production WASM build tool for Leptos frontends. Fixes wasm-opt bulk-memory issues, handles content hashing + index.html patching. Published on crates.io. **[docs](https://dirmacs.github.io/dwasm)**
+
 - **[nimakai](https://github.com/dirmacs/nimakai)** — NVIDIA NIM model latency benchmarker. Written in Nim. Measures ping, tool-use, and agent task times across all NIM models.
+
+- **[dissues](https://github.com/dirmacs/dissues)** — GitHub issue tracker TUI. Rust CLI for browsing, filtering, and managing issues across repositories.
 
 ### Platform & Products
 
 - **[thulp](https://github.com/dirmacs/thulp)** — Execution context engineering for AI agents. 11 crates, 311 tests. Unified tool abstraction for local functions, MCP servers, and OpenAPI endpoints. Query DSL, skill workflows, session management. **[docs](https://dirmacs.github.io/thulp)**
 
-- **[dui](https://crates.io/crates/dui-leptos)** — Component library for Leptos WASM frontends. 29 accessible components, published on crates.io.
+- **[lancor](https://github.com/dirmacs/lancor)** — Concurrent LLM request runner. Fan-out prompts to multiple models/providers, aggregate results. Pure Rust. **[docs](https://dirmacs.github.io/lancor)**
+
+- **[dui](https://github.com/dirmacs/dui)** — Component library for Leptos 0.8 WASM frontends. 29 accessible, signal-driven components with dark-first design system. Published on crates.io as `dui-leptos`.
 
 ## DolTARES and Doltdot
 
