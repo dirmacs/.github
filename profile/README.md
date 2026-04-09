@@ -38,11 +38,19 @@ Every agent eventually needs to search the web. **[Daedra](https://github.com/di
 
 When you need an AI agent that writes and fixes code using all of this infrastructure, there's **[Pawan](https://github.com/dirmacs/pawan)** — a self-healing CLI coding agent. AST and LSP-powered tooling for precise code understanding. Streaming TUI with command palette, vim keybindings, and inline markdown rendering. Tiered model registry with automatic tool installation. Runs on NVIDIA NIM for cloud inference or local MLX for on-device. No subscription, no telemetry, no lock-in. Named after Power Star Pawan Kalyan. **[docs →](https://dirmacs.github.io/pawan)**
 
+### Skill Distillation: Thulpoff
+
+Large models can teach small models through structured instructions. **[Thulpoff](https://github.com/dirmacs/thulpoff)** automates this: record a capable teacher LLM solving a task, extract the reusable patterns into a SKILL.md file, validate it works with a cheaper student model, and refine iteratively until the small model matches the large one on that specific task. Three LLM providers (Anthropic, NVIDIA NIM, OpenAI/Ollama), baseline comparison to measure actual skill lift, and a complete CLI (`generate`, `eval`, `refine`, `list`, `runs`). Pure Rust, no Python dependency. Inspired by HuggingFace's upskill, rewritten ground-up.
+
+### Code Intelligence: Deagle
+
+Your codebase as a queryable graph. **[Deagle](https://github.com/dirmacs/deagle)** indexes source files into a SQLite-backed code graph using tree-sitter, then lets you search symbols, trace relationships, and analyze architecture — all from a single binary. No Docker, no ArangoDB, no external services. Rust parser first, Python and Go next. Replaces [ix](https://github.com/ix-infrastructure/Ix) (which needed Docker + ArangoDB + 3GB RAM) with a ~10MB binary that indexes 86 entities in milliseconds.
+
 ## The Supporting Stack
 
 The core wouldn't hold together without the tooling around it:
 
-- **[dstack](https://github.com/dirmacs/dstack)** — Development stack for AI-assisted multi-repo work. Persistent memory (File + Eruka backends), cross-repo sync with ahead/behind tracking, VPS deployment with rollback, and quality gates that enforce the 5-question pre-commit checklist. Also a Claude Code plugin with 6 skills, 3 hooks, and 3 commands. Born from real production pain. On [crates.io](https://crates.io/crates/dstack-cli). **[docs →](https://dirmacs.github.io/dstack)**
+- **[dstack](https://github.com/dirmacs/dstack)** — Development stack for AI-assisted multi-repo work. Persistent memory (File + Eruka backends), cross-repo sync with ahead/behind tracking, VPS deployment with rollback, quality gates, and plugin scaffolding for 6 platforms (Claude Code, Cursor, Pawan, Codex, OpenCode, Gemini). Born from real production pain. On [crates.io](https://crates.io/crates/dstack-cli). **[docs →](https://dirmacs.github.io/dstack)**
 
 - **[dwasm](https://github.com/dirmacs/dwasm)** — Production WASM build tool for Leptos frontends. Replaces `trunk build --release` with a five-stage pipeline that handles the wasm-opt bulk-memory compatibility issue that breaks modern Rust WASM builds, automates content hashing for cache busting, and patches index.html references. On [crates.io](https://crates.io/crates/dwasm). **[docs →](https://dirmacs.github.io/dwasm)**
 
