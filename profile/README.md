@@ -42,6 +42,8 @@ When you need an AI agent that writes and fixes code using all of this infrastru
 
 The core wouldn't hold together without the tooling around it:
 
+- **[dstack](https://github.com/dirmacs/dstack)** — Development stack for AI-assisted multi-repo work. Persistent memory (File + Eruka backends), cross-repo sync with ahead/behind tracking, VPS deployment with rollback, and quality gates that enforce the 5-question pre-commit checklist. Also a Claude Code plugin with 6 skills, 3 hooks, and 3 commands. Born from real production pain. On [crates.io](https://crates.io/crates/dstack-cli). **[docs →](https://dirmacs.github.io/dstack)**
+
 - **[dwasm](https://github.com/dirmacs/dwasm)** — Production WASM build tool for Leptos frontends. Replaces `trunk build --release` with a five-stage pipeline that handles the wasm-opt bulk-memory compatibility issue that breaks modern Rust WASM builds, automates content hashing for cache busting, and patches index.html references. On [crates.io](https://crates.io/crates/dwasm). **[docs →](https://dirmacs.github.io/dwasm)**
 
 - **[DUI](https://github.com/dirmacs/dui)** — Component library for Leptos WASM frontends. Accessible, signal-driven components with ARIA roles, keyboard navigation, and focus management. Dark-first design system with CSS custom properties. On [crates.io](https://crates.io/crates/dui-leptos). Powers every DIRMACS frontend — the admin dashboard, the Eruka dashboard, the client portals.
