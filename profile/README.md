@@ -44,7 +44,7 @@ Large models can teach small models through structured instructions. **[thulpoff
 
 ### Code Intelligence: deagle
 
-Your codebase as a queryable graph. **[deagle](https://github.com/dirmacs/deagle)** indexes source files into a SQLite-backed code graph using tree-sitter, then lets you search symbols, trace relationships, and analyze architecture — all from a single binary. No Docker, no ArangoDB, no external services. Rust parser first, Python and Go next. Replaces [ix](https://github.com/ix-infrastructure/Ix) (which needed Docker + ArangoDB + 3GB RAM) with a ~10MB binary that indexes 86 entities in milliseconds.
+Your codebase as a queryable graph. **[deagle](https://github.com/dirmacs/deagle)** indexes source files into a SQLite-backed code graph using tree-sitter, then lets you search symbols, trace relationships, and analyze architecture — all from a single binary. 8 language parsers (Rust, Python, Go, TypeScript/JavaScript, Java, C, C++, Ruby), 4 search modes, 6 MCP tools, incremental indexing. Benchmarked with hyperfine: indexes a 94-file Rust project (3,486 entities) in **2.2 seconds**, a 14-file project in **125ms**. No Docker, no external services. **[docs →](https://dirmacs.github.io/deagle)**
 
 ## The Supporting Stack
 
