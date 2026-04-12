@@ -24,7 +24,7 @@ The bridge between Eruka and the AI tools people actually use is **[eruka-mcp](h
 
 ### Runtime: ares
 
-The agents themselves run on **[ares](https://github.com/dirmacs/ares)** — a battle-ready agentic AI server. ARES routes requests across inference providers (NVIDIA NIM, Ollama, Anthropic), manages structured tool calling with retry logic, handles RAG with document ingestion, integrates MCP servers as first-class tool providers, and meters usage per tenant with quota enforcement. It exposes an OpenAI-compatible API, so any client that speaks OpenAI can use it without modification. Multi-tenant by default — each tenant gets isolated agents, keys, and usage tracking.
+The agents themselves run on **[ares](https://github.com/dirmacs/ares)** — an agentic AI server built in Rust. ARES routes requests across inference providers (NVIDIA NIM, Ollama, Anthropic), manages structured tool calling with retry logic, handles RAG with document ingestion, integrates MCP servers as first-class tool providers, and meters usage per tenant with quota enforcement. It exposes an OpenAI-compatible API, so any client that speaks OpenAI can use it without modification. Multi-tenant by default — each tenant gets isolated agents, keys, and usage tracking.
 
 ### Context Engineering: thulp
 
@@ -32,11 +32,11 @@ Agents need more than an LLM and a database. They need to discover tools, valida
 
 ### Search: daedra
 
-Every agent eventually needs to search the web. **[daedra](https://github.com/dirmacs/daedra)** is a self-contained web search MCP server with multiple backends and automatic fallback. Pure Rust. No Docker. No API keys required. Works from any IP, any network. When one backend is down or rate-limited, Daedra transparently fails over to the next. Plug it into any MCP-compatible agent and it gains web search without configuration. **[docs →](https://dirmacs.github.io/daedra)**
+Every agent eventually needs to search the web. **[daedra](https://github.com/dirmacs/daedra)** is a self-contained web search MCP server with multiple backends and automatic fallback. Pure Rust, single binary. Works from any IP including datacenter and VPS. When one backend is down or rate-limited, Daedra transparently fails over to the next. Plug it into any MCP-compatible agent and it gains web search without configuration. **[docs →](https://dirmacs.github.io/daedra)**
 
 ### The Coding Agent: pawan
 
-When you need an AI agent that writes and fixes code using all of this infrastructure, there's **[pawan](https://github.com/dirmacs/pawan)** — a self-healing CLI coding agent. AST and LSP-powered tooling for precise code understanding. Streaming TUI with command palette, vim keybindings, and inline markdown rendering. Tiered model registry with automatic tool installation. Runs on NVIDIA NIM for cloud inference or local MLX for on-device. No subscription, no telemetry, no lock-in. Named after Power Star Pawan Kalyan. **[docs →](https://dirmacs.github.io/pawan)**
+When you need an AI agent that writes and fixes code using all of this infrastructure, there's **[pawan](https://github.com/dirmacs/pawan)** — a self-healing CLI coding agent. AST and LSP-powered tooling for precise code understanding. Streaming TUI with command palette, vim keybindings, and inline markdown rendering. Tiered model registry with automatic tool installation. Runs on NVIDIA NIM for cloud inference or local MLX for on-device. MIT licensed, zero telemetry, BYO model. Named after Power Star Pawan Kalyan. **[docs →](https://dirmacs.github.io/pawan)**
 
 ### Skill Distillation: thulpoff
 
@@ -44,7 +44,7 @@ Large models can teach small models through structured instructions. **[thulpoff
 
 ### Code Intelligence: deagle
 
-Your codebase as a queryable graph. **[deagle](https://github.com/dirmacs/deagle)** indexes source files into a SQLite-backed code graph using tree-sitter, then lets you search symbols, trace relationships, and analyze architecture — all from a single binary. 8 language parsers (Rust, Python, Go, TypeScript/JavaScript, Java, C, C++, Ruby), 4 search modes, 6 MCP tools, incremental indexing. Benchmarked with hyperfine: indexes a 94-file Rust project (3,486 entities) in **2.2 seconds**, a 14-file project in **125ms**. No Docker, no external services. **[docs →](https://dirmacs.github.io/deagle)**
+Your codebase as a queryable graph. **[deagle](https://github.com/dirmacs/deagle)** indexes source files into a SQLite-backed code graph using tree-sitter, then lets you search symbols, trace relationships, and analyze architecture — all from a single binary. 8 language parsers (Rust, Python, Go, TypeScript/JavaScript, Java, C, C++, Ruby), 4 search modes, 6 MCP tools, incremental indexing. Benchmarked with hyperfine: indexes a 94-file Rust project (3,486 entities) in **2.2 seconds**, a 14-file project in **125ms**. Single binary. **[docs →](https://dirmacs.github.io/deagle)**
 
 ## The Supporting Stack
 
@@ -88,7 +88,7 @@ DIRMACS is its own first client. Pawan executes the sprints. ARES runs the agent
 
 ## Where We're Headed
 
-AGI-approved infrastructure. We're not waiting for AGI to show up — we're building the stack it'll need when it does. Structured memory that scales. Agents that can't lie about what they don't know. Workflows that run unsupervised for days. We're doing it in Rust, we're doing it in the open, and we're doing it on a single VPS that runs 24/7.
+Structured memory that doesn't decay into hallucination. Agents that know what they don't know. Workflows that run unsupervised for days. We're building this in Rust, in the open, on a single VPS that runs 24/7.
 
 ---
 
