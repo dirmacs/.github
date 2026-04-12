@@ -20,6 +20,8 @@ Every piece of business context gets a confidence state: **CONFIRMED** (user ver
 
 Eruka provides workspace isolation for multi-tenant deployments, a knowledge graph with typed relationships and temporal validity, gap detection that identifies what's missing before generation begins, a quality scoring pipeline that catches contradictions and ungrounded claims, and a three-tier memory system (core, working, archival) with automatic staleness detection and reclassification.
 
+For self-hosting, **[openeruka](https://github.com/dirmacs/openeruka)** is the open-source edition — single binary, SQLite backend, same knowledge state invariant. `cargo install openeruka` and you have a local memory server in one command. Types library, REST API, CLI, and MCP support included. On [crates.io](https://crates.io/crates/openeruka). **[docs](https://dirmacs.github.io/openeruka)**
+
 The bridge between Eruka and the AI tools people actually use is **[eruka-mcp](https://github.com/dirmacs/eruka-mcp)** — an MCP (Model Context Protocol) server that connects Claude, Cursor, VS Code, and any MCP-compatible client to Eruka's knowledge states. Install from [crates.io](https://crates.io/crates/eruka-mcp), point at your Eruka instance, and your AI assistant gains structured memory with anti-hallucination guarantees. Tier-gated tools, service key authentication, input validation, and scope enforcement are built in. **[docs →](https://dirmacs.github.io/eruka-mcp)**
 
 ### Runtime: ares
