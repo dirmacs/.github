@@ -1,95 +1,57 @@
-# DIRMACS
+# dirmacs
 
-Open-source Rust infrastructure for agentic AI. We build it, we run it, we ship it.
-
----
-
-## The Problem
-
-AI agents hallucinate. They fabricate data, lose context between sessions, and can't distinguish what they know from what they're guessing. Deploy them at scale — across tenants, across tools, across multi-step workflows — and there's no infrastructure to hold it all together. No memory that persists. No confidence tracking. No constraint on what an agent can and cannot claim.
-
-We're building that infrastructure. In Rust. In the open.
-
-## How It All Fits Together
-
-### Memory: eruka
-
-It starts with **[eruka](https://eruka.dirmacs.com)** — a context intelligence engine that gives AI agents structured, stateful memory.
-
-Every piece of business context gets a confidence state: **CONFIRMED** (user verified, ground truth), **INFERRED** (AI extracted, high confidence), **UNCERTAIN** (was confirmed, now stale), or **UNKNOWN** (needed but missing). This isn't metadata — it's enforced. Before an agent generates content, Eruka checks readiness and injects constraints into the system prompt: *"DO NOT fabricate: revenue figures. This field is UNKNOWN."* The agent literally cannot hallucinate data it doesn't have.
-
-Eruka provides workspace isolation for multi-tenant deployments, a knowledge graph with typed relationships and temporal validity, gap detection that identifies what's missing before generation begins, a quality scoring pipeline that catches contradictions and ungrounded claims, and a three-tier memory system (core, working, archival) with automatic staleness detection and reclassification.
-
-The bridge between Eruka and the AI tools people actually use is **[eruka-mcp](https://github.com/dirmacs/eruka-mcp)** — an MCP (Model Context Protocol) server that connects Claude, Cursor, VS Code, and any MCP-compatible client to Eruka's knowledge states. Install from [crates.io](https://crates.io/crates/eruka-mcp), point at your Eruka instance, and your AI assistant gains structured memory with anti-hallucination guarantees. Tier-gated tools, service key authentication, input validation, and scope enforcement are built in. **[docs →](https://dirmacs.github.io/eruka-mcp)**
-
-### Runtime: ares
-
-The agents themselves run on **[ares](https://github.com/dirmacs/ares)** — an agentic AI server built in Rust. ARES routes requests across inference providers (NVIDIA NIM, Ollama, Anthropic), manages structured tool calling with retry logic, handles RAG with document ingestion, integrates MCP servers as first-class tool providers, and meters usage per tenant with quota enforcement. It exposes an OpenAI-compatible API, so any client that speaks OpenAI can use it without modification. Multi-tenant by default — each tenant gets isolated agents, keys, and usage tracking.
-
-### Context Engineering: thulp
-
-Agents need more than an LLM and a database. They need to discover tools, validate inputs, follow multi-step workflows, and maintain session context across turns. **[thulp](https://github.com/dirmacs/thulp)** handles execution context engineering — a unified abstraction over local Rust functions, MCP servers, and OpenAPI endpoints. It provides a query DSL for tool discovery, skill workflows that chain tools into reusable sequences, and session management that tracks state across agent turns. Thulp is the layer that makes agents *composable* — skills built from tools, workflows built from skills. **[docs →](https://dirmacs.github.io/thulp)**
-
-### Search: daedra
-
-Every agent eventually needs to search the web. **[daedra](https://github.com/dirmacs/daedra)** is a self-contained web search MCP server with multiple backends and automatic fallback. Pure Rust, single binary. Works from any IP including datacenter and VPS. When one backend is down or rate-limited, Daedra transparently fails over to the next. Plug it into any MCP-compatible agent and it gains web search without configuration. **[docs →](https://dirmacs.github.io/daedra)**
-
-### The Coding Agent: pawan
-
-When you need an AI agent that writes and fixes code using all of this infrastructure, there's **[pawan](https://github.com/dirmacs/pawan)** — a self-healing CLI coding agent. AST and LSP-powered tooling for precise code understanding. Streaming TUI with command palette, vim keybindings, and inline markdown rendering. Tiered model registry with automatic tool installation. Runs on NVIDIA NIM for cloud inference or local MLX for on-device. MIT licensed, zero telemetry, BYO model. Named after Power Star Pawan Kalyan. **[docs →](https://dirmacs.github.io/pawan)**
-
-### Skill Distillation: thulpoff
-
-Large models can teach small models through structured instructions. **[thulpoff](https://github.com/dirmacs/thulpoff)** automates this: record a capable teacher LLM solving a task, extract the reusable patterns into a SKILL.md file, validate it works with a cheaper student model, and refine iteratively until the small model matches the large one on that specific task. Three LLM providers (Anthropic, NVIDIA NIM, OpenAI/Ollama), baseline comparison to measure actual skill lift, and a complete CLI (`generate`, `eval`, `refine`, `list`, `runs`). Pure Rust, no Python dependency. Inspired by HuggingFace's upskill, rewritten ground-up.
-
-### Code Intelligence: deagle
-
-Your codebase as a queryable graph. **[deagle](https://github.com/dirmacs/deagle)** indexes source files into a SQLite-backed code graph using tree-sitter, then lets you search symbols, trace relationships, and analyze architecture — all from a single binary. 8 language parsers (Rust, Python, Go, TypeScript/JavaScript, Java, C, C++, Ruby), 4 search modes, 6 MCP tools, incremental indexing. Benchmarked with hyperfine: indexes a 94-file Rust project (3,486 entities) in **2.2 seconds**, a 14-file project in **125ms**. Single binary. **[docs →](https://dirmacs.github.io/deagle)**
-
-## The Supporting Stack
-
-The core wouldn't hold together without the tooling around it:
-
-- **[dstack](https://github.com/dirmacs/dstack)** — Development stack for AI-assisted multi-repo work. Persistent memory (File + Eruka backends), cross-repo sync with ahead/behind tracking, VPS deployment with rollback, quality gates, and plugin scaffolding for 6 platforms (Claude Code, Cursor, Pawan, Codex, OpenCode, Gemini). Born from real production pain. On [crates.io](https://crates.io/crates/dstack). **[docs →](https://dirmacs.github.io/dstack)**
-
-- **[dwasm](https://github.com/dirmacs/dwasm)** — Production WASM build tool for Leptos frontends. Replaces `trunk build --release` with a five-stage pipeline that handles the wasm-opt bulk-memory compatibility issue that breaks modern Rust WASM builds, automates content hashing for cache busting, and patches index.html references. On [crates.io](https://crates.io/crates/dwasm). **[docs →](https://dirmacs.github.io/dwasm)**
-
-- **[dui](https://github.com/dirmacs/dui)** — Component library for Leptos WASM frontends. Accessible, signal-driven components with ARIA roles, keyboard navigation, and focus management. Dark-first design system with CSS custom properties. On [crates.io](https://crates.io/crates/dui-leptos). Powers every DIRMACS frontend — the admin dashboard, the Eruka dashboard, the client portals.
-
-- **[lancor](https://github.com/dirmacs/lancor)** — End-to-end llama.cpp toolkit in Rust. API client for llama.cpp servers, HuggingFace Hub integration for model discovery and download, server orchestration for managing llama.cpp instances, and a benchmark suite for measuring inference performance. **[docs →](https://dirmacs.github.io/lancor)**
-
-- **[aegis](https://github.com/dirmacs/aegis)** — System configuration manager. Typed TOML manifests that generate tool configs for the entire DIRMACS stack — dotfiles, infrastructure settings, model registries, agent configurations.
-
-- **[nimakai](https://github.com/dirmacs/nimakai)** — NVIDIA NIM model latency benchmarker. Written in Nim. Measures ping latency, tool-use response time, and full agent task completion time across all available NIM models. Used internally to select the right model for each agent workload.
-
-## How We Operate
-
-### DolTARES and Doltdot
-
-**DolTARES** is our Rust orchestration server — where the open-source pieces meet production. Powered by ARES, Thulp, and Daedra, it handles chat, workflow orchestration, scheduling, channel delivery (including WhatsApp via our Go bridge), self-healing, and long-horizon DAG execution. Declarative TOML-based DAGs define workflows as node graphs with aggregation, conditional branching, and runtime parameters.
-
-**Doltdot** is the AI agent that runs on DolTARES. It's live in production — handling real tasks, research, development workflows, automated pipelines, and communication. We use it internally to run and improve the very infrastructure it sits on. The agent that builds itself.
-
-### DTrain — Our Operating Methodology
-
-We run on **DTrain** — a 6-phase circular lifecycle that takes any operation from manual to autonomous:
-
-**DSprint** (discover) → **DBuild** (develop) → **DLaunch** (deploy) → **DWatch** (monitor) → **DTune** (improve) → **DGrow** (scale) → repeat
-
-DIRMACS is its own first client. Pawan executes the sprints. ARES runs the agents. Eruka holds the context. DolTARES orchestrates the workflows. Every piece of infrastructure serves every other piece.
-
-## Engineering Principles
-
-- **Rust-first.** Memory safety, performance, correctness. Agentic systems need to be reliable at runtime, not just at demo time. We run on a single VPS — every byte matters, every panic is felt.
-- **Composability over monoliths.** Each crate does one thing well. They compose through clean interfaces — Eruka doesn't know about ARES, ARES doesn't know about Thulp, but they all work together through MCP and structured APIs.
-- **Verification over speed.** "Autonomous AI execution without verification gates produces confident fiction." Every deployment is proven with actual command output, not assumed from passing CI.
-- **NVIDIA downstream.** We build on NVIDIA NIM as our primary inference layer. Downstream integrators with upstream compute.
-- **Dogfooding.** We run our own agents on our own infra. Pawan improves pawan. ARES serves ARES's agents. Doltdot builds the infrastructure Doltdot runs on. If it breaks, we feel it first.
-
-## Where We're Headed
-
-Structured memory that doesn't decay into hallucination. Agents that know what they don't know. Workflows that run unsupervised for days. We're building this in Rust, in the open, on a single VPS that runs 24/7.
+Rust infrastructure for AI agents that have to be right. We run it in production, on our own box, before anyone else touches it.
 
 ---
 
-[dirmacs.github.io](https://dirmacs.github.io) · [dirmacs.com](https://www.dirmacs.com) · [contact@dirmacs.com](mailto:contact@dirmacs.com)
+## The problem
+
+An agent that doesn't know a number will invent one. It loses what it learned last session, can't tell a verified fact from a guess it made three turns ago, and has no way to say "I don't have that." Spread that across tenants and multi-step workflows and the failure isn't a wrong answer — it's that nobody can say where the answer came from.
+
+We build the layer underneath that catches this. In Rust. In the open.
+
+## The stack
+
+**[eruka](https://eruka.dirmacs.com)** — memory that refuses to guess. Every fact an agent might use carries a state: CONFIRMED, INFERRED, UNCERTAIN, or UNKNOWN. Before generation, eruka checks what's known and writes the gaps into the prompt — *"revenue is UNKNOWN; do not state it."* The model can still ignore a prompt, but now the gap is explicit in the request and logged against the output, which is where fabrication used to hide. Typed knowledge graph, temporal validity, workspace isolation for tenants, gap detection that flags what's missing before anyone asks. **[eruka-mcp](https://github.com/dirmacs/eruka-mcp)** ([crates.io](https://crates.io/crates/eruka-mcp), [docs](https://dirmacs.github.io/eruka-mcp)) connects it to Claude, Cursor, VS Code, and anything else that speaks MCP.
+
+**[ares](https://github.com/dirmacs/ares)** — the runtime. Built on Cordis, a dependency-injection kernel where each capability is its own crate and nothing boots unless its dependencies wired up. Routes across NVIDIA NIM, Ollama, and Anthropic; meters usage and enforces quotas per tenant; speaks OpenAI, so existing clients drop in. Multi-tenant from the first request, not bolted on after.
+
+**[thulp](https://github.com/dirmacs/thulp)** — execution context ([docs](https://dirmacs.github.io/thulp)). Tool discovery over local functions, MCP servers, and OpenAPI endpoints through one interface; a query DSL for finding the right tool; skill workflows that chain tools into reusable sequences; session state across turns. This is what makes agents composable — skills from tools, workflows from skills.
+
+**[daedra](https://github.com/dirmacs/daedra)** — web search ([docs](https://dirmacs.github.io/daedra)). Thirteen backends with automatic failover. One goes down or gets rate-limited, the next picks up mid-request. Single binary, no API key needed for basic search.
+
+**[deagle](https://github.com/dirmacs/deagle)** — code intelligence ([docs](https://dirmacs.github.io/deagle)). Tree-sitter plus SQLite, one binary. Symbol search, relationship tracing, architecture queries. Indexes a 94-file Rust project in 2.2 seconds, a 14-file one in 125 milliseconds — hyperfine, not vibes.
+
+**[pawan](https://github.com/dirmacs/pawan)** — the coding agent ([docs](https://dirmacs.github.io/pawan)). AST- and LSP-powered editing, a streaming TUI with vim keys, a tiered model registry that installs its own tools. Runs on NVIDIA NIM in the cloud or MLX on-device. MIT, no telemetry, bring your own model.
+
+**[thulpoff](https://github.com/dirmacs/thulpoff)** — skill distillation. Record a strong model solving a task, extract the reusable pattern into a SKILL.md, then check that a cheaper model can actually follow it. If the small model matches on that task, you keep the skill and stop paying for the big one.
+
+## Tooling we lean on
+
+- **[dstack](https://github.com/dirmacs/dstack)** — multi-repo agent workflows ([crates.io](https://crates.io/crates/dstack), [docs](https://dirmacs.github.io/dstack)). Persistent memory, cross-repo sync, quality gates, deploys with rollback.
+- **[dwasm](https://github.com/dirmacs/dwasm)** — Leptos WASM builds ([crates.io](https://crates.io/crates/dwasm), [docs](https://dirmacs.github.io/dwasm)). Works around the wasm-opt bulk-memory incompatibility that breaks some rustc/binaryen pairings, handles content hashing and index patching.
+- **[dui](https://github.com/dirmacs/dui)** — Leptos components ([crates.io](https://crates.io/crates/dui-leptos)). Accessible, signal-driven, dark-first. Runs every dirmacs frontend.
+- **[lancor](https://github.com/dirmacs/lancor)** — llama.cpp toolkit ([docs](https://dirmacs.github.io/lancor)). API client, HuggingFace Hub, server orchestration, benchmarks.
+- **[aegis](https://github.com/dirmacs/aegis)** — system configuration. Typed TOML manifests that generate configs for the whole stack.
+- **[nimakai](https://github.com/dirmacs/nimakai)** — NIM latency benchmarking, in Nim. We use it to pick the model for each workload.
+
+## Open and managed
+
+The OSS repos above are the floor — clone them, self-host them, they're yours. **[openeruka](https://github.com/dirmacs/openeruka)** is a self-contained Eruka-compatible memory server you can run yourself: SQLite backend, REST and MCP, one binary.
+
+What we run as a service is the part that's expensive to run well. Our managed orchestration layer wires ARES, thulp, and daedra together for chat, scheduling, long-horizon DAG execution, channel delivery, and self-healing, with an agent living on top of it. That control plane stays managed, the way Tailscale keeps its coordination server managed: running it safely is the product. If you'd rather operate it yourself, the open pieces are the real thing, not a demo tier.
+
+## How we work
+
+- **Rust, and one box.** Memory safety and correctness matter because a wrong agent output is worse than a slow one. Everything runs on a single VPS we operate ourselves — every byte matters, and we feel every panic.
+- **Each crate does one thing.** They compose over MCP and structured APIs rather than reaching into each other — no circular dependencies. When we found two ways to do the same thing in one of them, we treated it as debt, not choice.
+- **Verification, then speed.** A deployment is proven with real command output, not assumed from green CI. We benchmark with hyperfine and show the numbers in each repo, because "it feels fast" is how you ship a regression.
+- **We eat it first.** Our own agent builds the infrastructure it runs on. pawan improves pawan. If it breaks, it breaks on us.
+
+## Where this goes
+
+Agents that say what they know and stop at what they don't. Memory that holds its shape across sessions instead of decaying into confident fiction. Workflows that run unsupervised for days and can show their work when they finish.
+
+---
+
+[dirmacs.com](https://www.dirmacs.com) · [dirmacs.github.io](https://dirmacs.github.io) · [contact@dirmacs.com](mailto:contact@dirmacs.com)
